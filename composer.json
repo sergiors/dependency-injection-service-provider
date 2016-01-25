@@ -1,0 +1,24 @@
+{
+    "name": "sergiors/dependency-injection-service-provider",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Sérgio Rafael Siqueira",
+            "email": "sergio@inbep.com.br"
+        }
+    ],
+    "require": {
+        "symfony/dependency-injection": "~2.8",
+        "symfony/config": "~2.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "Sergiors\\Silex\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Sergiors\\Silex\\Tests\": "tests"
+        }
+    }
+}
