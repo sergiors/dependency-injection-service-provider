@@ -1,5 +1,6 @@
 {
     "name": "sergiors/dependency-injection-service-provider",
+    "description": "Symfony Dependency Injection for Silex",
     "license": "MIT",
     "authors": [
         {
@@ -18,7 +19,7 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Sergiors\\Silex\\Tests\": "tests"
+            "Sergiors\\Silex\\Tests\\": "tests"
         }
     }
 }
