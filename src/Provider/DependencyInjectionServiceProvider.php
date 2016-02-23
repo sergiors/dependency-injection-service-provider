@@ -10,16 +10,19 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Config\Loader\DelegatingLoader;
 
+/**
+ * @author Sérgio Rafael Siqueira <sergio@inbe.com.br>
+ */
 class DependencyInjectionServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['di'] = $app->share(function () {
+        $app['di.container'] = $app->share(function () {
             return new ContainerBuilder();
         });
 
         $app['di.loader.yml'] = $app->share(function (Application $app) {
-            return new YamlFileLoader($app['di'], new FileLocator());
+            return new YamlFileLoader($app['di.container'], new FileLocator());
         });
 
         $app['di.resolver'] = $app->share(function (Application $app) {
