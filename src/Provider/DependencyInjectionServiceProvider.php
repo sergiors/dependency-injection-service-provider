@@ -6,6 +6,7 @@ use Silex\Application;
 use Silex\ServiceProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderResolver;
 use Symfony\Component\Config\Loader\DelegatingLoader;
@@ -17,8 +18,8 @@ class DependencyInjectionServiceProvider implements ServiceProviderInterface
 {
     public function register(Application $app)
     {
-        $app['di.container'] = $app->share(function () {
-            return new ContainerBuilder();
+        $app['di.container'] = $app->share(function (Application $app) {
+            return new ContainerBuilder(new ParameterBag($app['di.parameters']));
         });
 
         $app['di.loader.yml'] = $app->share(function (Application $app) {
@@ -34,6 +35,8 @@ class DependencyInjectionServiceProvider implements ServiceProviderInterface
         $app['di.loader'] = $app->share(function (Application $app) {
             return new DelegatingLoader($app['di.resolver']);
         });
+
+        $app['di.parameters'] = [];
     }
 
     public function boot(Application $app)
