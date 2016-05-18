@@ -2,29 +2,22 @@
 
 namespace Sergiors\Silex\Tests;
 
-use Silex\Application;
-use Silex\WebTestCase;
+use Pimple\Container;
 use Sergiors\Silex\Provider\DependencyInjectionServiceProvider;
-use Symfony\Component\DependencyInjection\Container;
+use Symfony\Component\DependencyInjection\Container as SymfonyContainer;
 
-class DependencyInjectionServiceProviderTest extends WebTestCase
+class DependencyInjectionServiceProviderTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
      */
     public function register()
     {
-        $app = $this->createApplication();
-        $app->register(new DependencyInjectionServiceProvider());
+        $container = new Container();
+        $container->register(new DependencyInjectionServiceProvider());
 
-        $this->assertInstanceOf(Container::class, $app['di.container']);
-    }
-
-    public function createApplication()
-    {
-        $app = new Application();
-        $app['debug'] = true;
-        $app['exception_handler']->disable();
-        return $app;
+        $this->assertInstanceOf(SymfonyContainer::class, $container['di.container']);
+        $this->assertTrue($container['di.loader']->supports('test.xml'));
+        $this->assertTrue($container['di.loader']->supports('test.yml'));
     }
 }
