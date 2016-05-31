@@ -19,5 +19,8 @@ class DependencyInjectionServiceProviderTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf(SymfonyContainer::class, $container['di.container']);
         $this->assertTrue($container['di.loader']->supports('test.xml'));
         $this->assertTrue($container['di.loader']->supports('test.yml'));
+        $this->assertTrue($container['di.loader']->supports('test.ini'));
+        $this->assertTrue($container['di.loader']->supports('test.php'));
+        $this->assertTrue($container['di.loader']->supports('test/'));
     }
 }

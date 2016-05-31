@@ -7,6 +7,9 @@ use Pimple\ServiceProviderInterface;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\DependencyInjection\Loader\PhpFileLoader;
+use Symfony\Component\DependencyInjection\Loader\DirectoryLoader;
+use Symfony\Component\DependencyInjection\Loader\IniFileLoader;
 use Symfony\Component\DependencyInjection\ParameterBag\ParameterBag;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\Config\Loader\LoaderResolver;
@@ -31,10 +34,25 @@ class DependencyInjectionServiceProvider implements ServiceProviderInterface
             return new XmlFileLoader($app['di.container'], new FileLocator());
         });
 
+        $app['di.loader.php'] = $app->factory(function (Container $app) {
+            return new PhpFileLoader($app['di.container'], new FileLocator());
+        });
+
+        $app['di.loader.ini'] = $app->factory(function (Container $app) {
+            return new IniFileLoader($app['di.container'], new FileLocator());
+        });
+
+        $app['di.loader.directory'] = $app->factory(function (Container $app) {
+            return new DirectoryLoader($app['di.container'], new FileLocator());
+        });
+
         $app['di.resolver'] = function () use ($app) {
             return new LoaderResolver([
                 $app['di.loader.yml'],
-                $app['di.loader.xml']
+                $app['di.loader.xml'],
+                $app['di.loader.php'],
+                $app['di.loader.ini'],
+                $app['di.loader.directory'],
             ]);
         };
 
